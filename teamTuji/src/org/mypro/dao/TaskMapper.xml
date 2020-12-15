@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.mypro.dao.TaskMapper">
+  <resultMap id="BaseResultMap" type="org.mypro.entity.Task">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="closingdate" jdbcType="VARCHAR" property="closingdate" />
+    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="submitternumber" jdbcType="VARCHAR" property="submitternumber" />
+    <result column="collector" jdbcType="VARCHAR" property="collector" />
+    <result column="collectorid" jdbcType="INTEGER" property="collectorid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, introduce, closingdate, file, submitternumber, collector, collectorid
+  </sql>
+  <select id="selectByExample" parameterType="org.mypro.entity.TaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.mypro.entity.TaskExample">
+    delete from t_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.mypro.entity.Task">
+    insert into t_task (id, name, introduce, 
+      closingdate, file, submitternumber, 
+      collector, collectorid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{introduce,jdbcType=VARCHAR}, 
+      #{closingdate,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, #{submitternumber,jdbcType=VARCHAR}, 
+      #{collector,jdbcType=VARCHAR}, #{collectorid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.mypro.entity.Task">
+    insert into t_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="introduce != null">
+        introduce,
+      </if>
+      <if test="closingdate != null">
+        closingdate,
+      </if>
+      <if test="file != null">
+        file,
+      </if>
+      <if test="submitternumber != null">
+        submitternumber,
+      </if>
+      <if test="collector != null">
+        collector,
+      </if>
+      <if test="collectorid != null">
+        collectorid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="closingdate != null">
+        #{closingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null">
+        #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="submitternumber != null">
+        #{submitternumber,jdbcType=VARCHAR},
+      </if>
+      <if test="collector != null">
+        #{collector,jdbcType=VARCHAR},
+      </if>
+      <if test="collectorid != null">
+        #{collectorid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.mypro.entity.TaskExample" resultType="java.lang.Long">
+    select count(*) from t_task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_task
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.introduce != null">
+        introduce = #{record.introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.closingdate != null">
+        closingdate = #{record.closingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.file != null">
+        file = #{record.file,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitternumber != null">
+        submitternumber = #{record.submitternumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collector != null">
+        collector = #{record.collector,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectorid != null">
+        collectorid = #{record.collectorid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_task
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      introduce = #{record.introduce,jdbcType=VARCHAR},
+      closingdate = #{record.closingdate,jdbcType=VARCHAR},
+      file = #{record.file,jdbcType=VARCHAR},
+      submitternumber = #{record.submitternumber,jdbcType=VARCHAR},
+      collector = #{record.collector,jdbcType=VARCHAR},
+      collectorid = #{record.collectorid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.mypro.entity.Task">
+    update t_task
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="introduce != null">
+        introduce = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="closingdate != null">
+        closingdate = #{closingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null">
+        file = #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="submitternumber != null">
+        submitternumber = #{submitternumber,jdbcType=VARCHAR},
+      </if>
+      <if test="collector != null">
+        collector = #{collector,jdbcType=VARCHAR},
+      </if>
+      <if test="collectorid != null">
+        collectorid = #{collectorid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.mypro.entity.Task">
+    update t_task
+    set name = #{name,jdbcType=VARCHAR},
+      introduce = #{introduce,jdbcType=VARCHAR},
+      closingdate = #{closingdate,jdbcType=VARCHAR},
+      file = #{file,jdbcType=VARCHAR},
+      submitternumber = #{submitternumber,jdbcType=VARCHAR},
+      collector = #{collector,jdbcType=VARCHAR},
+      collectorid = #{collectorid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
